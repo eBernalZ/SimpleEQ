@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="w1Hfwr" name="SimpleEQ" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              version="0.0.1" companyName="Beze Tech" companyCopyright="2021"
+              version="0.0.1" companyName="BeZe Tech" companyCopyright="2021"
               pluginName="SimpleEQ" pluginManufacturerCode="Seq1" pluginCode="Seq1"
               pluginRTASCategory="1" pluginAAXCategory="1" pluginVST3Category="EQ"
               cppLanguageStandard="17">
