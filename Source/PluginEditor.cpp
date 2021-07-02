@@ -171,11 +171,27 @@ void ResponseCurveComponent::timerCallback() {
         }
     }
     
+    const auto fftBounds = getAnalysisArea().toFloat();
+    const auto fftSize = leftChannelFFTDataGenerator.getFFTSize();
+    
+    const auto binWidth = audioProcessor.getSampleRate() / (double)fftSize;
+    
+    while (leftChannelFFTDataGenerator.getNumAvailableDataBlocks() > 0) {
+        std::vector<float> fftData;
+        if (leftChannelFFTDataGenerator.getFFTData(fftData)) {
+            pathProducer.generatePath(fftData, fftBounds, fftSize, binWidth, -48.f);
+        }
+    }
+    
+    while (pathProducer.getNumPathsAvailable()) {
+        pathProducer.getPath(leftChannelFFTPath);
+    }
+    
     if (parametersChanged.compareAndSetBool(false, true)) {
         // update mono chain from apvts and signal repaint
         updateChain();
-        repaint();
     }
+    repaint();
 }
 
 void ResponseCurveComponent::updateChain() {
@@ -266,6 +282,9 @@ void ResponseCurveComponent::paint (juce::Graphics& g) {
     for (size_t i = 1; i < mags.size(); i++) {
         responseCurve.lineTo(responseArea.getX() + i, map(mags[i]));
     }
+    
+    g.setColour(Colours::blue);
+    g.strokePath(leftChannelFFTPath, PathStrokeType(1.f));
     
     g.setColour(Colours::orange);
     g.drawRoundedRectangle(getRenderArea().toFloat(), 4.f, 1.f);
