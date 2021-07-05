@@ -32,15 +32,20 @@ void LookAndFeel::drawRotarySlider(juce::Graphics& g, int x, int y, int width, i
         jassert(rotaryStartAngle < rotaryEndAngle);
         auto sliderAngRad = jmap(sliderPosProportional, 0.f, 1.f, rotaryStartAngle, rotaryEndAngle);
         p.applyTransform(AffineTransform().rotated(sliderAngRad, center.getX(), center.getY()));
+        
         g.fillPath(p);
+        
         g.setFont(rswl->getTextHeight());
         auto text = rswl->getDisplayString();
         auto strWidth = g.getCurrentFont().getStringWidth(text);
+        
         r.setSize(strWidth + 4, rswl->getTextHeight() +  2);
         r.setCentre(center);
-        g.setColour(Colours::black);
+        
+        g.setColour(enabled ? Colours::black : Colours::darkgrey);
         g.fillRect(r);
-        g.setColour(Colours::white);
+        
+        g.setColour(enabled ? Colours::white : Colours::lightgrey);
         g.drawFittedText(text, r.toNearestInt(), juce::Justification::centred, 1);
     }
 }
