@@ -181,6 +181,9 @@ juce::Timer {
     void timerCallback() override;
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void toggleAnalysisEnablement(bool enabled) {
+        showFFTAnal = enabled;
+    };
     
 private:
     SimpleEQAudioProcessor& audioProcessor;
@@ -194,6 +197,7 @@ private:
     juce::Rectangle<int> getRenderArea();
     juce::Rectangle<int> getAnalysisArea();
     PathProducer leftPathProducer, rightPathProducer;
+    bool showFFTAnal = true;
 };
 
 //==============================================================================
